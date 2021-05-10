@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request, abort, flash, json
+from flask import Blueprint, render_template, redirect, url_for, request, abort, flash, json, session
 from src.forms.categoryForm import CategoryForm
 from config import *
+from src.helpers.auth import check_auth
 import requests
 import json
 
@@ -8,14 +9,21 @@ cat = Blueprint('category', __name__, url_prefix='/categories', template_folder=
 
 @cat.route('/', methods=['GET',])
 def index():
+    if not check_auth(session):
+        abort(401)
+
     categories = requests.get(API_GET_ALL_CATEGORIES)
 
     if categories.status_code == 200:
         return render_template('categories/index.html', categories=categories.json())
-    return abort(400)
+    return abort(categories.status_code)
+
 
 @cat.route('/create', methods=['GET', 'POST'])
 def create():
+    if not check_auth(session):
+        abort(401)
+
     form = CategoryForm()
     if form.validate_on_submit():
         category = {
@@ -30,6 +38,9 @@ def create():
 
 @cat.route('/<string:id>/edit', methods=['GET', 'POST'])
 def edit(id):
+    if not check_auth(session):
+        abort(401)
+
     form = CategoryForm()
 
     req = requests.get(API_GET_CATEGORY.format(id))
@@ -45,6 +56,9 @@ def edit(id):
 
 @cat.route('/<string:id>/delete', methods=['GET', 'DELETE'])
 def delete(id):
+    if not check_auth(session):
+        abort(401)
+
     category = requests.get(API_GET_CATEGORY.format(id))
     jso = category.json()
     if category.status_code == 200:
@@ -53,6 +67,8 @@ def delete(id):
 
 @cat.route('/<string:id>/confirm_delete', methods=['GET', 'DELETE'])
 def confirm_delete(id):
+    if not check_auth(session):
+        abort(401)
 
     category = requests.get(API_GET_CATEGORY.format(id))
     prod = requests.get(API_GET_ALL_PRODUCTS).json()

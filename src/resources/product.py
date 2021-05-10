@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, request, abort, flash, json
+from flask import Blueprint, render_template, redirect, url_for, request, abort, flash, json, session
 from src.forms.productForm import ProductForm
 from src.forms.productEditForm import ProductEditForm
 from src.helpers.firebase import generate_url_image
+from src.helpers.auth import check_auth
 from config import *
 
 import requests
@@ -10,25 +11,24 @@ import json
 prod = Blueprint('product', __name__, url_prefix='/products',
                  template_folder='templates')
 
-# Guardar ruta de consulta en variable de entorno
-url_get = "https://testapi-d2ef9-default-rtdb.firebaseio.com/products.json"
-url_post = "https://testapi-d2ef9-default-rtdb.firebaseio.com/products.json"
-url_categorias_get = "https://testapi-d2ef9-default-rtdb.firebaseio.com/categorias.json"
-
 
 @prod.route('', methods={'GET', })
 def index():
-    req = requests.get(API_GET_ALL_PRODUCTS)
+    if not check_auth(session):
+        abort(401)
 
-    if req.status_code == 200:
-        products = req.json()
-        return render_template('product/index.html', products=products)
+    products = requests.get(API_GET_ALL_PRODUCTS)
 
-    return abort(400)
+    if products.status_code == 200:
+        return render_template('product/index.html', products=products.json())
+    return abort(products.status_code)
 
 
 @prod.route('/create', methods={'GET', 'POST'})
 def create():
+    if not check_auth(session):
+        abort(401)
+
     categories = requests.get(API_GET_ALL_CATEGORIES).json()
     form = ProductForm()
     if categories:
@@ -59,6 +59,9 @@ def create():
 
 @prod.route('/<string:id>/edit', methods=['GET', 'POST'])
 def edit(id):
+    if not check_auth(session):
+        abort(401)
+
     product = requests.get(API_GET_PRODUCT.format(id))
     categories = requests.get(API_GET_ALL_CATEGORIES).json()
     form = ProductEditForm()
@@ -97,6 +100,9 @@ def edit(id):
 
 @prod.route('/<string:id>/delete', methods=['GET', 'DELETE'])
 def delete(id):
+    if not check_auth(session):
+        abort(401)
+
     product = requests.get(API_GET_PRODUCT.format(id))
 
     if product.status_code == 200:
@@ -106,6 +112,9 @@ def delete(id):
 
 @prod.route('/<string:id>/confirm_delete', methods=['GET', 'DELETE'])
 def confirm_delete(id):
+    if not check_auth(session):
+        abort(401)
+
     product = requests.get(API_GET_PRODUCT.format(id))
 
     if product.status_code == 200:
@@ -117,6 +126,9 @@ def confirm_delete(id):
 
 @prod.route('/<string:id>/details', methods=['GET', ])
 def details(id):
+    if not check_auth(session):
+        abort(401)
+        
     product = requests.get(API_GET_PRODUCT.format(id)).json()
 
     return render_template('product/detail.html', product=product)
