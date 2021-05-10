@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {% block head %}
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    {% endblock %}
+    <title>Error!</title>
+  </head>
+  <body class="deep-orange">
+    <div class="container">
+      <h1 class="center-align">{{ error_name }}</h1>
+      <p class="center-align"><b>Error!</b> {{ error_description }}</p>
+      <div class="center-align">
+        <a href="{{ url_for('home') }}" class="btn btn-large black"
+          >Volver al inicio</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

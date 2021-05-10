@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_session import Session
 from src.resources import product, category, authentication
+from src.helpers import handlers
 import os
 
 def create_app(environment="development"):
@@ -18,4 +19,9 @@ def create_app(environment="development"):
     @app.route('/',)
     def home():
         return render_template('home.html')
+
+    app.register_error_handler(404, handlers.not_found_error)
+    app.register_error_handler(401, handlers.unauthorized_error)
+    app.register_error_handler(405, handlers.method_not_allowed)
+    app.register_error_handler(500, handlers.internal_server_error)
     return app
