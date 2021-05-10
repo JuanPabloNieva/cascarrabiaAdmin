@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% block title %}
+Cascarrabia - Detalle Producto
+{% endblock %}
+{% block content %}
+<h2 class="text-center m-2 p-4">Detalle Producto</h2>
+<a href="{{ url_for('product.index') }}"
+  ><i class="material-icons">arrow_back</i></a
+>
+<p class="fw-bold m-auto text-center">Nombre</p>
+<p class="text-center">{{ product['nombre'] }}</p>
+<p class="fw-bold m-auto text-center">Imagen</p>
+<img
+  class="w-25 rounded mx-auto d-block"
+  src="{{ product['url_imagen'] }}"
+  alt="{{ product['descripcion'] }}"
+/>
+{% endblock %}

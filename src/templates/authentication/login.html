@@ -1,0 +1,33 @@
+{% extends 'baseAuth.html' %} {% block title %} Cascarrabia - Login {% endblock%} 
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="m-2">
+  {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <li style="list-style-type: none;">{{ message }}</li>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<h1 class="m-auto mb-4 text-center">Iniciar Sesion</h1>
+<form class="w-75 m-auto" action="{{ url_for('auth.login') }}" method="post">
+  {{ form.csrf_token }} 
+  {{ form.email.label(class_="form.label fw-bold") }}
+  {{ form.email(class_="form-control mb-3") }} 
+  {% for error in form.email.errors %}
+    <p class="text-danger fw-bold">{{ error}}</p>
+  {% endfor %}
+  {{ form.password.label(class_="form.label fw-bold") }}
+  {{ form.password(class_="form-control mb-3") }}
+  {% for error in form.password.errors %}
+    <p class="text-danger fw-bold">{{ error}}</p>
+  {% endfor %}
+  <input class="btn btn-dark w-100" type="submit" value="Iniciar Sesion" />
+</form>
+{% endblock%}

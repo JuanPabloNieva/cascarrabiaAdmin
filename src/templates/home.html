@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#673ab7">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cascarrabia - Home</title>
+  </head>
+  <body class="deep-purple">
+    <div class="container">
+      <h1 class="amber-text center-align">Bienvenidos a Cascarrabia</h1>
+      <p class="white-text center-align">
+        Por favor, si tienes una cuenta de administrador inicia sesión para
+        utilizar las funcionalidades
+      </p>
+      <div class="center-align">
+        <a href="{{ url_for('auth.login') }}" class="btn-large amber deep-purple-text" type="button">Iniciar Sesion</a>
+      </div>
+    </div>
+  </body>
+</html>

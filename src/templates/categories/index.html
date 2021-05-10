@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block title %} Cascarrabia - Categorias {% endblock %} 
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul class="m-2">
+  {% for message in messages %}
+    {% if message[0] == 'error' %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {% else %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% endif %}
+      <li style="list-style-type: none;">{{ message[1] }}</li>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<h2 class="text-center m-2 p-4">Categorias</h2>
+<div class="m-2">
+  <a href="{{ url_for('category.create') }}"
+    ><i class="material-icons bg-primary rounded-circle text-white p-2">add</i></a
+  >
+</div>
+<div class="m-auto">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if categories %}
+        {% for category in categories %}
+        <tr>
+          <td>{{ categories[category].nombre }}</td>
+          <td>
+            <a href="{{ url_for('category.edit', id=category) }}"
+            class="btn btn-sm btn-warning">Editar</a
+            >
+            <a href="{{ url_for('category.delete', id=category) }}"
+            class="btn btn-sm btn-danger">Borrar</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+  {% if not categories %}
+    <p class="alert alert-danger">¡No hay categorias cargadas!</p>
+  {% endif %}
+</div>
+{% endblock %}

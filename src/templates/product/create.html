@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} Cascarrabia - Crear Producto {% endblock %}
+{% block content %}
+<h2 class="text-center m-2 p-4">Crear Producto</h2>
+<a href="{{ url_for('product.index') }}"><i class="material-icons">arrow_back</i></a>
+{% if form.category.choices | length == 0 %}
+  <p class="alert alert-danger">¡Atención! Actualmente no existe ninguna category. Deberá <a href="{{ url_for('category.create') }}">crear</a> una para poder crear un product.</p>
+{% endif %}
+<form
+  class="w-75 m-auto"
+  action="{{ url_for('product.create') }}"
+  method="post"
+  enctype="multipart/form-data"
+>
+  {{ form.csrf_token }} 
+  {{ form.name.label(class_="form.label fw-bold") }} 
+  {{ form.name(class_="form-control mb-3") }} 
+  {% for error in form.name.errors %}
+    <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  {{ form.price.label(class_="form.label fw-bold") }} 
+  {{ form.price(class_="form-control mb-3") }} 
+  {% for error in form.price.errors %}
+    <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  {{ form.image.label(class_="form.label fw-bold") }} 
+  {{ form.image(class_="form-control mb-3") }} 
+  {% for error in form.image.errors %}
+    <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  {{ form.description.label(class_="form.label fw-bold") }} 
+  {{ form.description(class_="form-control mb-3") }} 
+  {% for error in form.description.errors %}
+    <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  {{ form.category.label(class_="form.label fw-bold")}} 
+  {{ form.category(class_="form-select mb-3") }}
+  {% for error in form.category.errors %}
+    <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  <input class="btn btn-primary w-100" type="submit" value="Crear" />
+</form>
+{% endblock %}

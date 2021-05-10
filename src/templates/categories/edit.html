@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block title %} Cascarrabia - Editar Categoria {%
+endblock %} {% block content %}
+<h2 class="text-center m-2 p-4">Editar Categoria</h2>
+<a href="{{ url_for('category.index') }}"
+  ><i class="material-icons">arrow_back</i></a
+>
+<form
+  class="w-75 m-auto"
+  action="{{ url_for('category.edit', id=category) }}"
+  method="POST"
+>
+  {{ form.csrf_token }} {{ form.name.label(class_="form-label fw-bold") }} {{
+  form.name(class_="form-control mb-3") }} {% for error in form.name.errors %}
+  <p class="text-danger">{{ error}}</p>
+  {% endfor %}
+  <input class="btn btn-primary w-100" type="submit" value="Guardar Cambios" />
+</form>
+{% endblock %}

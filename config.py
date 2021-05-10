@@ -1,0 +1,21 @@
+from os import environ
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+API_POST_PRODUCT=os.getenv('API_POST_PRODUCT')
+API_POST_CATEGORY=os.getenv('API_POST_CATEGORY')
+
+API_GET_ALL_PRODUCTS=os.getenv('API_GET_ALL_PRODUCTS')
+API_GET_ALL_CATEGORIES=os.getenv('API_GET_ALL_CATEGORIES')
+
+API_GET_PRODUCT=os.getenv('API_GET_PRODUCT')
+API_GET_CATEGORY=os.getenv('API_GET_CATEGORY')
+
+API_DELETE_PRODUCT=os.getenv('API_DELETE_PRODUCT')
+API_DELETE_CATEGORY=os.getenv('API_DELETE_CATEGORY')
+
+API_PUT_PRODUCT=os.getenv('API_PUT_PRODUCT')
+API_PUT_CATEGORY=os.getenv('API_PUT_CATEGORY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
